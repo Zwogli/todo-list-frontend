@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  baseUrl: 'http://staging.developerakademie.com' //Server Url
+	production: true,
+	baseUrl: "", //Server Url http://api.developerakademie.com
 };
