@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -9,37 +12,31 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {}
 
-  async loginWithUsernameAndPAssword() {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-
-    const raw = JSON.stringify({
-      username: this.username,
-      password: this.password,
-    });
-
-    const requestOptions: RequestInit = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
-
+  async login() {
     try {
       // disable input and button
-      let response = await fetch(
-        'http://127.0.0.1:8000/login/',
-        requestOptions
+      let response = await this.loginWithUsernameAndPassword(
+        this.username,
+        this.password
       );
-      let json = await response.json();
-      localStorage.setItem('token', json.token);
+      console.log('Show response: ', response);
+
       // TODO: Redirect
     } catch (e) {
       console.error(e); // Show error message
     }
+  }
+
+  loginWithUsernameAndPassword(username: string, password: string) {
+    const url = environment.baseUrl + '/login/';
+    const body = {
+      username: username,
+      password: password,
+    };
+    return lastValueFrom(this.http.post(url, body));
   }
 }
