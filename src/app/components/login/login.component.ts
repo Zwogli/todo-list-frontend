@@ -18,11 +18,13 @@ export class LoginComponent {
 	async login() {
 		try {
 			// disable input and button
-			let response = await this.as.loginWithUsernameAndPassword(
+			let response: any = await this.as.loginWithUsernameAndPassword(
 				this.username,
 				this.password
 			);
 			console.log("Show response: ", response);
+			const token = response.token;
+			localStorage.setItem("token", token);
 			this.router.navigateByUrl("/todos");
 		} catch (e) {
 			alert("Login fehlgeschlagen!");
