@@ -23,8 +23,8 @@ export class LoginComponent {
 				this.password
 			);
 			console.log("Show response: ", response);
-			const token = response.token;
-			localStorage.setItem("token", token);
+			const responseToken = response.token;
+			localStorage.setItem('token', responseToken)
 			this.router.navigateByUrl("/todos");
 		} catch (e) {
 			alert("Login fehlgeschlagen!");
